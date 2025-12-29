@@ -16,8 +16,9 @@ public class OrderItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long code;
 
-    @Column(name = "code_order", nullable = false)
-    private Long codeOrder;
+    @JoinColumn(name = "code_order", nullable = false)
+    @ManyToOne
+    private OrderEntity orderEntity;
 
     @Column(name = "code_product", nullable = false)
     private Long codeProduct;

@@ -34,6 +34,8 @@ public interface OrderMapper {
         orderEntity.setOrderDate(LocalDateTime.now());
 
         orderEntity.setTotal(calcTotal(orderEntity));
+
+        orderEntity.getItens().forEach(item->item.setOrderEntity(orderEntity));
     }
 
     private static BigDecimal calcTotal(OrderEntity orderEntity) {
