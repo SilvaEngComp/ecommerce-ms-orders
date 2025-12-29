@@ -9,6 +9,7 @@ import online.eliabe.ecommerce.orders.domain.model.enums.PaymentType;
 import online.eliabe.ecommerce.orders.web.dto.PaymentDataDTO;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -25,7 +26,7 @@ public class OrderEntity {
 
 
     @Column(name = "order_date", nullable = false)
-    private Long orderDate;
+    private LocalDateTime orderDate;
 
     @Column(name = "total", precision = 16, scale = 2)
     private BigDecimal total;

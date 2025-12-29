@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "order_item")
 @Data
@@ -24,5 +26,5 @@ public class OrderItemEntity {
     private Integer quantity;
 
     @Column(name = "unit_price", nullable = false, precision = 16, scale = 2)
-    private Integer unitPrice;
+    private BigDecimal unitPrice;
 }
