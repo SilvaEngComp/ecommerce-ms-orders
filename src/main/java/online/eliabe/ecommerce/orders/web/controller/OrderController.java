@@ -23,12 +23,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OrderController implements OrderSwaggerController {
     private final OrderService service;
-    @Operation(summary = "Find product by ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found the product"),
-            @ApiResponse(responseCode = "400", description = "Invalid ID supplied",
-                    content = @Content),
-    })
     @Override
     @PostMapping
     public ResponseEntity<Object> createOrder(OrderRequestDTO requestDTO) {
