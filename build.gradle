@@ -52,6 +52,9 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign
 	implementation "org.springframework.cloud:spring-cloud-starter-openfeign:5.0.0"
+	//swagger
+	// Note: Version 3.0.0+ is required for Spring Boot 4.x
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.0'
 }
 
 tasks.named('test') {

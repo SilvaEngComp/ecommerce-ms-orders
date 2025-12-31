@@ -1,5 +1,9 @@
 package online.eliabe.ecommerce.orders.web.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import online.eliabe.ecommerce.orders.domain.service.OrderService;
 import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
@@ -19,7 +23,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OrderController implements OrderSwaggerController {
     private final OrderService service;
-
+    @Operation(summary = "Find product by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the product"),
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied",
+                    content = @Content),
+    })
     @Override
     @PostMapping
     public ResponseEntity<Object> createOrder(OrderRequestDTO requestDTO) {
