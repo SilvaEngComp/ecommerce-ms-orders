@@ -15,3 +15,11 @@ spring:
         format_sql: true
 server:
   port: 8083
+
+ecommerce:
+  orders:
+    clients:
+      products:
+        url: 'http://localhost:8081/produtos'
+      clients:
+        url:  'http://localhost:8082/clients'

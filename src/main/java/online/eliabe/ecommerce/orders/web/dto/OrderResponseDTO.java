@@ -3,6 +3,8 @@ package online.eliabe.ecommerce.orders.web.dto;
 import online.eliabe.ecommerce.orders.domain.model.enums.OrderStatus;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record OrderResponseDTO (
@@ -11,7 +13,7 @@ public record OrderResponseDTO (
         Long clientCode,
 
 
-        Long orderDate,
+        LocalDateTime orderDate,
 
         BigDecimal total,
 

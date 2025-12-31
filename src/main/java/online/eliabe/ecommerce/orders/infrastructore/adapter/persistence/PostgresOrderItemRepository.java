@@ -7,7 +7,6 @@ import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.entity.
 import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.repository.OrderItemRepository;
 import online.eliabe.ecommerce.orders.web.dto.OrderItemDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
-import online.eliabe.ecommerce.orders.web.dto.OrderResponseDTO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,13 +18,13 @@ public class PostgresOrderItemRepository implements OrderItemOutputPort {
     private final OrderItemMapper mapper;
     private final OrderItemRepository repository;
     @Override
-    public List<OrderItemEntity> saveAll(List<OrderItemEntity> itens) {
-       return repository.saveAll(itens);
+    public List<OrderItemDTO> saveAll(List<OrderItemEntity> itens) {
+       return repository.saveAll(itens).stream().map(mapper::toDTO).toList();
 
     }
 
     @Override
-    public Optional<OrderResponseDTO> findByCode(Long code) {
+    public Optional<OrderItemDTO> findByCode(Long code) {
         return repository.findById(code).map(mapper::toDTO);
     }
 

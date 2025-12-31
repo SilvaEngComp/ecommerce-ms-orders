@@ -2,17 +2,19 @@ package online.eliabe.ecommerce.orders.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import online.eliabe.ecommerce.orders.application.input.CreateOrderUseCase;
+import online.eliabe.ecommerce.orders.application.input.FindAllOrderUseCase;
 import online.eliabe.ecommerce.orders.application.input.GetOrderUseCase;
 import online.eliabe.ecommerce.orders.application.output.OrderOutputPort;
 import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderResponseDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class OrderService implements CreateOrderUseCase, GetOrderUseCase {
+public class OrderService implements CreateOrderUseCase, GetOrderUseCase, FindAllOrderUseCase {
     private final OrderOutputPort outputPort;
     @Override
     public OrderResponseDTO execute(OrderRequestDTO request) {
@@ -22,5 +24,11 @@ public class OrderService implements CreateOrderUseCase, GetOrderUseCase {
     @Override
     public Optional<OrderResponseDTO> execute(Long code) {
         return  outputPort.findByCode(code);
+    }
+
+
+    @Override
+    public List<OrderResponseDTO> execute() {
+        return outputPort.findAll();
     }
 }
