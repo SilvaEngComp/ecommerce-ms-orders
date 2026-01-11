@@ -1,11 +1,10 @@
 package online.eliabe.ecommerce.orders.domain.service;
 
 import lombok.RequiredArgsConstructor;
-import online.eliabe.ecommerce.orders.application.input.CreateOrderUseCase;
-import online.eliabe.ecommerce.orders.application.input.FindAllOrderUseCase;
-import online.eliabe.ecommerce.orders.application.input.GetOrderUseCase;
-import online.eliabe.ecommerce.orders.application.input.ReceivedPaymentCallbackUseCase;
+import online.eliabe.ecommerce.orders.application.input.*;
 import online.eliabe.ecommerce.orders.application.output.OrderOutputPort;
+import online.eliabe.ecommerce.orders.domain.model.enums.PaymentType;
+import online.eliabe.ecommerce.orders.web.dto.AddNewPaymentDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderResponseDTO;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class OrderService implements CreateOrderUseCase, GetOrderUseCase, FindAllOrderUseCase, ReceivedPaymentCallbackUseCase {
+public class OrderService implements CreateOrderUseCase, GetOrderUseCase, FindAllOrderUseCase, ReceivedPaymentCallbackUseCase, NewPaymentUseCase {
     private final OrderOutputPort outputPort;
     @Override
     public OrderResponseDTO execute(OrderRequestDTO request) {
@@ -36,5 +35,10 @@ public class OrderService implements CreateOrderUseCase, GetOrderUseCase, FindAl
     @Override
     public void execute(Long code, String paymentKey, boolean status, String comments) {
          outputPort.updatePaymentStatus( code,  paymentKey,  status,  comments);
+    }
+
+    @Override
+    public void execute(AddNewPaymentDTO addNewPaymentDTO) {
+        outputPort.addNewPayment(addNewPaymentDTO);
     }
 }

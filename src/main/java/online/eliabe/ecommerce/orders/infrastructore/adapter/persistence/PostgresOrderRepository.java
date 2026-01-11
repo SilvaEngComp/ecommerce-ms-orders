@@ -6,11 +6,15 @@ import lombok.extern.slf4j.Slf4j;
 import online.eliabe.ecommerce.orders.application.output.OrderOutputPort;
 import online.eliabe.ecommerce.orders.domain.mapper.OrderMapper;
 import online.eliabe.ecommerce.orders.domain.model.enums.OrderStatus;
+import online.eliabe.ecommerce.orders.domain.model.enums.PaymentData;
+import online.eliabe.ecommerce.orders.domain.model.enums.PaymentType;
+import online.eliabe.ecommerce.orders.infrastructore.exceptions.ItemNotFoundException;
 import online.eliabe.ecommerce.orders.infrastructore.externalServices.BankClientManagerService;
 import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.entity.OrderEntity;
 import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.repository.OrderItemRepository;
 import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.repository.OrderRepository;
 import online.eliabe.ecommerce.orders.infrastructore.validator.ValidatorOrderManager;
+import online.eliabe.ecommerce.orders.web.dto.AddNewPaymentDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderResponseDTO;
 import org.jspecify.annotations.NonNull;
@@ -60,18 +64,43 @@ public class PostgresOrderRepository implements OrderOutputPort {
     }
 
     @Override
+    @Transactional
     public void updatePaymentStatus(Long code, String paymentKey, boolean status, String comments) {
         try {
             var orderEntity = repository.findByCodeAndPaymentKey(code, paymentKey).orElseThrow();
             if (status) {
-                orderEntity.setStatus(OrderStatus.PAYMENT_ERROR);
-            } else {
                 orderEntity.setStatus(OrderStatus.PAYED);
+            } else {
+                orderEntity.setStatus(OrderStatus.PAYMENT_ERROR);
                 orderEntity.setObservations(comments);
             }
         }catch (Exception e){
             var message = String.format("Order not found for code %d and payment key %s", code, paymentKey);
             log.error(message);
         }
+    }
+
+    @Transactional
+    @Override
+    public void addNewPayment(AddNewPaymentDTO addNewPaymentDTO){
+        var orderFound = repository.findById(addNewPaymentDTO.orderCode());
+        if(orderFound.isEmpty()){
+            throw new ItemNotFoundException("This order was not found","orderCode");
+        }
+
+        var order = orderFound.get();
+
+        PaymentData newPayment = new PaymentData();
+        newPayment.setPaymentType(addNewPaymentDTO.paymentType());
+        newPayment.setData(addNewPaymentDTO.data());
+
+        order.setPaymentData(newPayment);
+        order.setStatus(OrderStatus.SENT);
+        order.setObservations("new payment made. Waiting for confirmation");
+
+        order = bankClientManagerService.paymentRequest(order);
+
+        repository.save(order);
+
     }
 }

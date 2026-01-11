@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import online.eliabe.ecommerce.orders.domain.service.OrderService;
+import online.eliabe.ecommerce.orders.web.dto.AddNewPaymentDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderResponseDTO;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import java.util.List;
 @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Operation with success"),
         @ApiResponse(responseCode = "400", description = "Invalid parameter",content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+
 })
 public interface OrderSwaggerController {
     @ApiResponses(value = {
@@ -38,4 +40,8 @@ public interface OrderSwaggerController {
     @GetMapping
     @Operation(summary = "Find all orders")
     ResponseEntity<List<OrderResponseDTO>> findAll();
+
+    @PostMapping("/payment")
+    @Operation(summary = "Add a new payment")
+    public ResponseEntity<Object> newPayment(@RequestBody AddNewPaymentDTO dto) ;
 }

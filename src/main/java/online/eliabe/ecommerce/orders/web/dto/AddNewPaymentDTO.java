@@ -2,5 +2,5 @@ package online.eliabe.ecommerce.orders.web.dto;
 
 import online.eliabe.ecommerce.orders.domain.model.enums.PaymentType;
 
-public record PaymentDataDTO (String paymentData, PaymentType paymentType) {
+public record AddNewPaymentDTO(Long orderCode, String data, PaymentType paymentType) {
 }
