@@ -2,8 +2,10 @@ package online.eliabe.ecommerce.orders.infrastructore.adapter.persistence;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import online.eliabe.ecommerce.orders.application.output.OrderOutputPort;
 import online.eliabe.ecommerce.orders.domain.mapper.OrderMapper;
+import online.eliabe.ecommerce.orders.domain.model.enums.OrderStatus;
 import online.eliabe.ecommerce.orders.infrastructore.externalServices.BankClientManagerService;
 import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.entity.OrderEntity;
 import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.repository.OrderItemRepository;
@@ -19,6 +21,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class PostgresOrderRepository implements OrderOutputPort {
     private final OrderMapper mapper;
     private final OrderRepository repository;
@@ -54,5 +57,21 @@ public class PostgresOrderRepository implements OrderOutputPort {
     @Override
     public List<OrderResponseDTO> findAll() {
         return repository.findAll().stream().map(mapper::toDTO).toList();
+    }
+
+    @Override
+    public void updatePaymentStatus(Long code, String paymentKey, boolean status, String comments) {
+        try {
+            var orderEntity = repository.findByCodeAndPaymentKey(code, paymentKey).orElseThrow();
+            if (status) {
+                orderEntity.setStatus(OrderStatus.PAYMENT_ERROR);
+            } else {
+                orderEntity.setStatus(OrderStatus.PAYED);
+                orderEntity.setObservations(comments);
+            }
+        }catch (Exception e){
+            var message = String.format("Order not found for code %d and payment key %s", code, paymentKey);
+            log.error(message);
+        }
     }
 }

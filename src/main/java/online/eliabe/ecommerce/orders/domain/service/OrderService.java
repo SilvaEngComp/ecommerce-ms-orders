@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import online.eliabe.ecommerce.orders.application.input.CreateOrderUseCase;
 import online.eliabe.ecommerce.orders.application.input.FindAllOrderUseCase;
 import online.eliabe.ecommerce.orders.application.input.GetOrderUseCase;
+import online.eliabe.ecommerce.orders.application.input.ReceivedPaymentCallbackUseCase;
 import online.eliabe.ecommerce.orders.application.output.OrderOutputPort;
 import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderResponseDTO;
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class OrderService implements CreateOrderUseCase, GetOrderUseCase, FindAllOrderUseCase {
+public class OrderService implements CreateOrderUseCase, GetOrderUseCase, FindAllOrderUseCase, ReceivedPaymentCallbackUseCase {
     private final OrderOutputPort outputPort;
     @Override
     public OrderResponseDTO execute(OrderRequestDTO request) {
@@ -30,5 +31,10 @@ public class OrderService implements CreateOrderUseCase, GetOrderUseCase, FindAl
     @Override
     public List<OrderResponseDTO> execute() {
         return outputPort.findAll();
+    }
+
+    @Override
+    public void execute(Long code, String paymentKey, boolean status, String comments) {
+         outputPort.updatePaymentStatus( code,  paymentKey,  status,  comments);
     }
 }

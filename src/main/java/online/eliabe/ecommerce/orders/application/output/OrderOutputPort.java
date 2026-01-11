@@ -10,4 +10,5 @@ public interface OrderOutputPort {
     public OrderResponseDTO save(OrderRequestDTO requestDTO);
     public Optional<OrderResponseDTO> findByCode(Long code);
     public List<OrderResponseDTO> findAll();
+    public void updatePaymentStatus(Long code,String paymentKey,boolean status, String comments);
 }
