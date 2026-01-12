@@ -23,3 +23,10 @@ ecommerce:
         url: 'http://localhost:8081/produtos'
       clients:
         url:  'http://localhost:8082/clients'
+  config:
+    kafka:
+      server-url: 'http://localhost:29092'
+      topics:
+        payed-orders: 'ecommerce.payed-orders'
+        payed-requested: 'ecommerce.requested-orders'
+        payed-sent: 'ecommerce.sent-orders'

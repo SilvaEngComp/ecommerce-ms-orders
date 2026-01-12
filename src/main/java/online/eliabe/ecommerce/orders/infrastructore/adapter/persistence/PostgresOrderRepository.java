@@ -95,7 +95,7 @@ public class PostgresOrderRepository implements OrderOutputPort {
         newPayment.setData(addNewPaymentDTO.data());
 
         order.setPaymentData(newPayment);
-        order.setStatus(OrderStatus.SENT);
+        order.setStatus(OrderStatus.REQUESTED);
         order.setObservations("new payment made. Waiting for confirmation");
 
         order = bankClientManagerService.paymentRequest(order);
