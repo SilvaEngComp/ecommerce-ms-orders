@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import online.eliabe.ecommerce.orders.domain.model.enums.OrderStatus;
 import online.eliabe.ecommerce.orders.domain.model.enums.PaymentData;
+import online.eliabe.ecommerce.orders.infrastructore.externalServices.representation.ClientRepresentation;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -48,6 +49,9 @@ public class OrderEntity {
 
     @Transient
     private PaymentData paymentData;
+
+    @Transient
+    private ClientRepresentation clientData;
 
     @OneToMany(mappedBy = "orderEntity")
     private List<OrderItemEntity> itens;

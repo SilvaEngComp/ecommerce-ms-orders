@@ -28,4 +28,7 @@ public class OrderItemEntity {
 
     @Column(name = "unit_price", nullable = false, precision = 16, scale = 2)
     private BigDecimal unitPrice;
+
+    @Transient
+    private String productName;
 }

@@ -10,10 +10,10 @@ import org.springframework.kafka.core.KafkaTemplate;
 
 public class OrdersApplication {
 
-	@Bean
-	public CommandLineRunner commandLineRunner(KafkaTemplate<String,String> template){
-	return args -> 	template.send("ecommerce.payed-orders","{outraMensagem}");
-	}
+//	@Bean
+//	public CommandLineRunner commandLineRunner(KafkaTemplate<String,String> template){
+//	return args -> 	template.send("ecommerce.payed-orders","{outraMensagem}");
+//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(OrdersApplication.class, args);
