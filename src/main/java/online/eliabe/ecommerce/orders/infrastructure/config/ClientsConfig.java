@@ -1,4 +1,4 @@
-package online.eliabe.ecommerce.orders.infrastructore.config;
+package online.eliabe.ecommerce.orders.infrastructure.config;
 
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Configuration;

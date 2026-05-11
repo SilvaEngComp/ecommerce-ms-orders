@@ -1,6 +1,7 @@
-package online.eliabe.ecommerce.orders.infrastructore.externalServices;
+package online.eliabe.ecommerce.orders.infrastructure.externalServices;
 import lombok.extern.slf4j.Slf4j;
-import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.entity.OrderEntity;
+import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity.OrderEntity;
+
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

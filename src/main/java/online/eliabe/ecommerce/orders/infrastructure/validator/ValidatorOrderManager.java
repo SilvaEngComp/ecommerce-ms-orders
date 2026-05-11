@@ -1,13 +1,14 @@
-package online.eliabe.ecommerce.orders.infrastructore.validator;
+package online.eliabe.ecommerce.orders.infrastructure.validator;
 
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.entity.OrderEntity;
-import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.entity.OrderItemEntity;
-import online.eliabe.ecommerce.orders.infrastructore.exceptions.ValidationException;
-import online.eliabe.ecommerce.orders.infrastructore.externalServices.ExternalSrvClient;
-import online.eliabe.ecommerce.orders.infrastructore.externalServices.ExternalSrvProduct;
+import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity.OrderEntity;
+import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity.OrderItemEntity;
+import online.eliabe.ecommerce.orders.infrastructure.exceptions.ValidationException;
+import online.eliabe.ecommerce.orders.infrastructure.externalServices.ExternalSrvClient;
+import online.eliabe.ecommerce.orders.infrastructure.externalServices.ExternalSrvProduct;
+
 import org.springframework.stereotype.Component;
 
 import java.util.List;

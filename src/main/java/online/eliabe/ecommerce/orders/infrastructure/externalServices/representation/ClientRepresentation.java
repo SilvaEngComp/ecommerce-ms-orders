@@ -1,4 +1,4 @@
-package online.eliabe.ecommerce.orders.infrastructore.externalServices.representation;
+package online.eliabe.ecommerce.orders.infrastructure.externalServices.representation;
 
 import jakarta.persistence.Column;
 

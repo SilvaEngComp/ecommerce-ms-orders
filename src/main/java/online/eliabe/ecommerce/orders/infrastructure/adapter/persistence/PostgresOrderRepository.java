@@ -1,4 +1,4 @@
-package online.eliabe.ecommerce.orders.infrastructore.adapter.persistence;
+package online.eliabe.ecommerce.orders.infrastructure.adapter.persistence;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -8,12 +8,12 @@ import online.eliabe.ecommerce.orders.domain.mapper.OrderMapper;
 import online.eliabe.ecommerce.orders.domain.model.enums.OrderStatus;
 import online.eliabe.ecommerce.orders.domain.model.enums.PaymentData;
 import online.eliabe.ecommerce.orders.domain.model.enums.PaymentType;
-import online.eliabe.ecommerce.orders.infrastructore.exceptions.ItemNotFoundException;
-import online.eliabe.ecommerce.orders.infrastructore.externalServices.BankClientManagerService;
-import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.entity.OrderEntity;
-import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.repository.OrderItemRepository;
-import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.repository.OrderRepository;
-import online.eliabe.ecommerce.orders.infrastructore.validator.ValidatorOrderManager;
+import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity.OrderEntity;
+import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.repository.OrderItemRepository;
+import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.repository.OrderRepository;
+import online.eliabe.ecommerce.orders.infrastructure.exceptions.ItemNotFoundException;
+import online.eliabe.ecommerce.orders.infrastructure.externalServices.BankClientManagerService;
+import online.eliabe.ecommerce.orders.infrastructure.validator.ValidatorOrderManager;
 import online.eliabe.ecommerce.orders.web.dto.AddNewPaymentDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderResponseDTO;

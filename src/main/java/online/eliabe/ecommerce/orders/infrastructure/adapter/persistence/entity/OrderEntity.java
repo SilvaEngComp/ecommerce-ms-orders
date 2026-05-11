@@ -1,11 +1,11 @@
-package online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.entity;
+package online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import online.eliabe.ecommerce.orders.domain.model.enums.OrderStatus;
 import online.eliabe.ecommerce.orders.domain.model.enums.PaymentData;
-import online.eliabe.ecommerce.orders.infrastructore.externalServices.representation.ClientRepresentation;
+import online.eliabe.ecommerce.orders.infrastructure.externalServices.representation.ClientRepresentation;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

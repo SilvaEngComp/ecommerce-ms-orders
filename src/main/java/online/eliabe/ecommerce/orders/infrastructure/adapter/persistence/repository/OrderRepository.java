@@ -1,7 +1,8 @@
-package online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.repository;
+package online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.repository;
 
-import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.entity.OrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity.OrderEntity;
 
 import java.util.Optional;
 

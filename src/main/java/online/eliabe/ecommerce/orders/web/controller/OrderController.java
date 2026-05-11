@@ -2,7 +2,7 @@ package online.eliabe.ecommerce.orders.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import online.eliabe.ecommerce.orders.domain.service.OrderService;
-import online.eliabe.ecommerce.orders.infrastructore.exceptions.ItemNotFoundException;
+import online.eliabe.ecommerce.orders.infrastructure.exceptions.ItemNotFoundException;
 import online.eliabe.ecommerce.orders.web.dto.AddNewPaymentDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderResponseDTO;

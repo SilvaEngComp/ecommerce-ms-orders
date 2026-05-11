@@ -1,10 +1,10 @@
-package online.eliabe.ecommerce.orders.infrastructore.adapter.persistence;
+package online.eliabe.ecommerce.orders.infrastructure.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
 import online.eliabe.ecommerce.orders.application.output.OrderItemOutputPort;
 import online.eliabe.ecommerce.orders.domain.mapper.OrderItemMapper;
-import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.entity.OrderItemEntity;
-import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.repository.OrderItemRepository;
+import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity.OrderItemEntity;
+import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.repository.OrderItemRepository;
 import online.eliabe.ecommerce.orders.web.dto.OrderItemDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
 import org.springframework.stereotype.Repository;

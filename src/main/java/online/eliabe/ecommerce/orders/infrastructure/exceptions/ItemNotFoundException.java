@@ -1,4 +1,4 @@
-package online.eliabe.ecommerce.orders.infrastructore.exceptions;
+package online.eliabe.ecommerce.orders.infrastructure.exceptions;
 
 import feign.FeignException;
 import lombok.Getter;

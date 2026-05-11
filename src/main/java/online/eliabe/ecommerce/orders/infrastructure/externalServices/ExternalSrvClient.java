@@ -1,11 +1,12 @@
-package online.eliabe.ecommerce.orders.infrastructore.externalServices;
+package online.eliabe.ecommerce.orders.infrastructure.externalServices;
 
-import online.eliabe.ecommerce.orders.infrastructore.externalServices.representation.ClientRepresentation;
-import online.eliabe.ecommerce.orders.infrastructore.externalServices.representation.ProductRepresentation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import online.eliabe.ecommerce.orders.infrastructure.externalServices.representation.ClientRepresentation;
+import online.eliabe.ecommerce.orders.infrastructure.externalServices.representation.ProductRepresentation;
 
 @FeignClient(name = "clients", url = "${ecommerce.orders.clients.clients.url}")
 public interface ExternalSrvClient {

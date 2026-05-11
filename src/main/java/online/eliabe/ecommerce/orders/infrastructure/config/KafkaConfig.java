@@ -1,4 +1,4 @@
-package online.eliabe.ecommerce.orders.infrastructore.config;
+package online.eliabe.ecommerce.orders.infrastructure.config;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;

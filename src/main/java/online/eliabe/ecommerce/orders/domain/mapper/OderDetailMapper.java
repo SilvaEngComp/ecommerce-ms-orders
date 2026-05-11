@@ -1,7 +1,8 @@
 package online.eliabe.ecommerce.orders.domain.mapper;
 
 import online.eliabe.ecommerce.orders.domain.model.publisher.representation.OrderDetailRepresentation;
-import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.entity.OrderEntity;
+import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity.OrderEntity;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

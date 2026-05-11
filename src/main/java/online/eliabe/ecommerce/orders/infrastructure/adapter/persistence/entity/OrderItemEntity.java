@@ -1,4 +1,4 @@
-package online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.entity;
+package online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
