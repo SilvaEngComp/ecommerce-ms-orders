@@ -42,7 +42,7 @@ public class OrderController implements OrderSwaggerController {
     @PostMapping("/payment")
     @Override
     public ResponseEntity<Object> newPayment(@RequestBody AddNewPaymentDTO dto) {
-            service.newPayment(dto);
+            service.addNewPayment(dto);
             return ResponseEntity.noContent().build();
 
 

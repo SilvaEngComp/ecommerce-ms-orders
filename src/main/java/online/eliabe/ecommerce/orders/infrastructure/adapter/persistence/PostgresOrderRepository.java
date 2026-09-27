@@ -1,25 +1,12 @@
 package online.eliabe.ecommerce.orders.infrastructure.adapter.persistence;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import online.eliabe.ecommerce.orders.application.output.OrderOutputPort;
-import online.eliabe.ecommerce.orders.domain.mapper.OrderMapper;
-import online.eliabe.ecommerce.orders.domain.model.enums.OrderStatus;
-import online.eliabe.ecommerce.orders.domain.model.enums.PaymentData;
-import online.eliabe.ecommerce.orders.domain.model.enums.PaymentType;
+import online.eliabe.ecommerce.orders.application.output.OrderPaymentStatusPort;
 import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity.OrderEntity;
 import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity.OrderItemEntity;
 import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.repository.OrderItemRepository;
 import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.repository.OrderRepository;
-import online.eliabe.ecommerce.orders.infrastructure.exceptions.ItemNotFoundException;
-import online.eliabe.ecommerce.orders.infrastructure.externalServices.BankClientManagerService;
-import online.eliabe.ecommerce.orders.infrastructure.externalServices.ExternalSrvClient;
-import online.eliabe.ecommerce.orders.infrastructure.validator.ValidatorOrderManager;
-import online.eliabe.ecommerce.orders.web.dto.AddNewPaymentDTO;
-import online.eliabe.ecommerce.orders.web.dto.OrderItemDTO;
-import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
-import online.eliabe.ecommerce.orders.web.dto.OrderResponseDTO;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Repository;
 
@@ -28,27 +15,14 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-@Slf4j
-public class PostgresOrderRepository implements OrderOutputPort {
-    private final OrderMapper mapper;
+public class PostgresOrderRepository implements OrderOutputPort, OrderPaymentStatusPort {
     private final OrderRepository repository;
     private final OrderItemRepository orderItemrepository;
-    private final ValidatorOrderManager validator;
-    private final BankClientManagerService bankClientManagerService;
-    private final ExternalSrvClient externalServiceClient;
 
     @Override
-    @Transactional
-    public OrderResponseDTO save(OrderRequestDTO requestDTO) {
-        OrderEntity orderEntity = mapper.toEntity(requestDTO);
-        validator.validate(orderEntity);
-         return Optional.of(orderEntity)
-                .map(this::registerOrder)
-                 .map(bankClientManagerService::paymentRequest)
-                .map(mapper::toDTO)
-                .orElseThrow();
-
-
+    public Optional<OrderEntity> save(OrderEntity orderEntity) {
+        return Optional.of(orderEntity)
+                .map(this::registerOrder);
     }
 
     private @NonNull OrderEntity registerOrder(OrderEntity order) {
@@ -58,69 +32,24 @@ public class PostgresOrderRepository implements OrderOutputPort {
     }
 
     @Override
-    public Optional<OrderResponseDTO> findByCode(Long code) {
-        Optional<OrderEntity> order =  repository.findById(code);
-        order.ifPresent(this::getDataCliente);
-        order.ifPresent(this::getOrderItens);
-        return order.map(mapper::toDTO);
-    }
-
-    private void getDataCliente(OrderEntity orderEntity) {
-        Long clientCode = orderEntity.getClientCode();
-        var response = externalServiceClient.findByCode(clientCode);
-        orderEntity.setClientData(response.getBody());
-    }
-
-    private void getOrderItens(OrderEntity orderEntity) {
-        List<OrderItemEntity> orderItems = orderItemrepository.findByOrder(orderEntity);
-        orderEntity.setItens(orderItems);
+    public Optional<OrderEntity> findByCode(Long code) {
+        return repository.findById(code);
     }
 
     @Override
-    public List<OrderResponseDTO> findAll() {
-        return repository.findAll().stream().map(mapper::toDTO).toList();
+    public List<OrderEntity> findAll() {
+        return repository.findAll();
     }
 
     @Override
-    @Transactional
-    public void updatePaymentStatus(Long code, String paymentKey, boolean status, String comments) {
-        try {
-            var orderEntity = repository.findByCodeAndPaymentKey(code, paymentKey).orElseThrow();
-            if (status) {
-                orderEntity.setStatus(OrderStatus.PAYED);
-            } else {
-                orderEntity.setStatus(OrderStatus.PAYMENT_ERROR);
-                orderEntity.setObservations(comments);
-            }
-        }catch (Exception e){
-            var message = String.format("Order not found for code %d and payment key %s", code, paymentKey);
-            log.error(message);
-        }
+    public List<OrderItemEntity> findByOrder(OrderEntity orderEntity) {
+        return this.orderItemrepository.findByOrder(orderEntity);
     }
 
-    @Transactional
     @Override
-    public void addNewPayment(AddNewPaymentDTO addNewPaymentDTO){
-        var orderFound = repository.findById(addNewPaymentDTO.orderCode());
-        if(orderFound.isEmpty()){
-            throw new ItemNotFoundException("This order was not found","orderCode");
-        }
-
-        var order = orderFound.get();
-
-        PaymentData newPayment = new PaymentData();
-        newPayment.setPaymentType(addNewPaymentDTO.paymentType());
-        newPayment.setData(addNewPaymentDTO.data());
-
-        order.setPaymentData(newPayment);
-        order.setStatus(OrderStatus.REQUESTED);
-        order.setObservations("new payment made. Waiting for confirmation");
-
-        order = bankClientManagerService.paymentRequest(order);
-
-        repository.save(order);
-
+    public Optional<OrderEntity> findByCodeAndPaymentKey(Long code, String paymentKey) {
+        return repository.findByCodeAndPaymentKey(code, paymentKey);
     }
-
+    
 
 }
