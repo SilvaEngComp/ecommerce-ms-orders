@@ -1,8 +1,7 @@
 package online.eliabe.ecommerce.orders.application.output;
 
-import jakarta.transaction.Transactional;
-import online.eliabe.ecommerce.orders.domain.model.enums.PaymentType;
 import online.eliabe.ecommerce.orders.web.dto.AddNewPaymentDTO;
+import online.eliabe.ecommerce.orders.web.dto.OrderItemDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderResponseDTO;
 
@@ -15,4 +14,5 @@ public interface OrderOutputPort {
     public List<OrderResponseDTO> findAll();
     public void updatePaymentStatus(Long code,String paymentKey,boolean status, String comments);
     void addNewPayment(AddNewPaymentDTO addNewPaymentDTO);
+    
 }

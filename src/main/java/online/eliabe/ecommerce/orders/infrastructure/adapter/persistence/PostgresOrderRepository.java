@@ -9,12 +9,15 @@ import online.eliabe.ecommerce.orders.domain.model.enums.OrderStatus;
 import online.eliabe.ecommerce.orders.domain.model.enums.PaymentData;
 import online.eliabe.ecommerce.orders.domain.model.enums.PaymentType;
 import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity.OrderEntity;
+import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity.OrderItemEntity;
 import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.repository.OrderItemRepository;
 import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.repository.OrderRepository;
 import online.eliabe.ecommerce.orders.infrastructure.exceptions.ItemNotFoundException;
 import online.eliabe.ecommerce.orders.infrastructure.externalServices.BankClientManagerService;
+import online.eliabe.ecommerce.orders.infrastructure.externalServices.ExternalSrvClient;
 import online.eliabe.ecommerce.orders.infrastructure.validator.ValidatorOrderManager;
 import online.eliabe.ecommerce.orders.web.dto.AddNewPaymentDTO;
+import online.eliabe.ecommerce.orders.web.dto.OrderItemDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderResponseDTO;
 import org.jspecify.annotations.NonNull;
@@ -32,6 +35,7 @@ public class PostgresOrderRepository implements OrderOutputPort {
     private final OrderItemRepository orderItemrepository;
     private final ValidatorOrderManager validator;
     private final BankClientManagerService bankClientManagerService;
+    private final ExternalSrvClient externalServiceClient;
 
     @Override
     @Transactional
@@ -55,7 +59,21 @@ public class PostgresOrderRepository implements OrderOutputPort {
 
     @Override
     public Optional<OrderResponseDTO> findByCode(Long code) {
-        return repository.findById(code).map(mapper::toDTO);
+        Optional<OrderEntity> order =  repository.findById(code);
+        order.ifPresent(this::getDataCliente);
+        order.ifPresent(this::getOrderItens);
+        return order.map(mapper::toDTO);
+    }
+
+    private void getDataCliente(OrderEntity orderEntity) {
+        Long clientCode = orderEntity.getClientCode();
+        var response = externalServiceClient.findByCode(clientCode);
+        orderEntity.setClientData(response.getBody());
+    }
+
+    private void getOrderItens(OrderEntity orderEntity) {
+        List<OrderItemEntity> orderItems = orderItemrepository.findByOrder(orderEntity);
+        orderEntity.setItens(orderItems);
     }
 
     @Override
@@ -103,4 +121,6 @@ public class PostgresOrderRepository implements OrderOutputPort {
         repository.save(order);
 
     }
+
+
 }
