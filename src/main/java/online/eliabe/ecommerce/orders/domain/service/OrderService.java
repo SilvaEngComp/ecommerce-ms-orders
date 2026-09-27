@@ -4,7 +4,11 @@ import lombok.RequiredArgsConstructor;
 import online.eliabe.ecommerce.orders.application.input.*;
 import online.eliabe.ecommerce.orders.application.output.OrderOutputPort;
 import online.eliabe.ecommerce.orders.domain.model.enums.PaymentType;
+import online.eliabe.ecommerce.orders.domain.useCase.CreateOrderUserCaseImpl;
+import online.eliabe.ecommerce.orders.domain.useCase.FindAllOrderUseCaseImpl;
+import online.eliabe.ecommerce.orders.domain.useCase.GetOrderUseCaseImpl;
 import online.eliabe.ecommerce.orders.web.dto.AddNewPaymentDTO;
+import online.eliabe.ecommerce.orders.web.dto.OrderItemDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderResponseDTO;
 import org.springframework.stereotype.Service;
@@ -14,31 +18,34 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class OrderService implements CreateOrderUseCase, GetOrderUseCase, FindAllOrderUseCase, ReceivedPaymentCallbackUseCase, NewPaymentUseCase {
-    private final OrderOutputPort outputPort;
-    @Override
-    public OrderResponseDTO execute(OrderRequestDTO request) {
-        return outputPort.save(request);
+public class OrderService implements IOrderService {
+   private final CreateOrderUserCaseImpl createOrderUserCase;
+   private final GetOrderUseCaseImpl GetOrderUseCase;
+   private final FindAllOrderUseCaseImpl findAllOrderUseCase;
+   private final ReceivedPaymentCallbackUseCase receivedPaymentCallbackUseCase;
+   private final NewPaymentUseCase newPaymentUseCase;
+    
+   @Override
+   public OrderResponseDTO save(OrderRequestDTO request) {
+        return createOrderUserCase.execute(request);
+    }
+
+    public Optional<OrderResponseDTO> findByCode(Long code) {
+        return GetOrderUseCase.execute(code);
+    }
+
+    public List<OrderResponseDTO> findAll() {
+        return findAllOrderUseCase.execute();
     }
 
     @Override
-    public Optional<OrderResponseDTO> execute(Long code) {
-        return  outputPort.findByCode(code);
-    }
-
-
-    @Override
-    public List<OrderResponseDTO> execute() {
-        return outputPort.findAll();
+    public void updatePaymentStatus(Long code, String paymentKey, boolean status, String comments) {
+         receivedPaymentCallbackUseCase.execute( code,  paymentKey,  status,  comments);
     }
 
     @Override
-    public void execute(Long code, String paymentKey, boolean status, String comments) {
-         outputPort.updatePaymentStatus( code,  paymentKey,  status,  comments);
+    public void addNewPayment(AddNewPaymentDTO addNewPaymentDTO) {
+        newPaymentUseCase.execute(addNewPaymentDTO);
     }
 
-    @Override
-    public void execute(AddNewPaymentDTO addNewPaymentDTO) {
-        outputPort.addNewPayment(addNewPaymentDTO);
-    }
 }

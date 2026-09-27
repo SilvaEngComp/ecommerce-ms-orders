@@ -1,8 +1,8 @@
 package online.eliabe.ecommerce.orders.domain.mapper;
 
 import online.eliabe.ecommerce.orders.domain.model.enums.OrderStatus;
-import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.entity.OrderEntity;
-import online.eliabe.ecommerce.orders.infrastructore.adapter.persistence.entity.OrderItemEntity;
+import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity.OrderEntity;
+import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity.OrderItemEntity;
 import online.eliabe.ecommerce.orders.web.dto.OrderItemDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderResponseDTO;
@@ -11,7 +11,6 @@ import org.mapstruct.factory.Mappers;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 @Mapper(componentModel = "spring")

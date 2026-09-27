@@ -1,8 +1,9 @@
 package online.eliabe.ecommerce.orders.web.handler;
 
 import feign.FeignException;
-import online.eliabe.ecommerce.orders.infrastructore.exceptions.ItemNotFoundException;
-import online.eliabe.ecommerce.orders.infrastructore.exceptions.ValidationException;
+import online.eliabe.ecommerce.orders.infrastructure.exceptions.ItemNotFoundException;
+import online.eliabe.ecommerce.orders.infrastructure.exceptions.ValidationException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,0 +1,34 @@
+package online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+
+@Entity
+@Table(name = "order_item")
+@Data
+@NoArgsConstructor
+public class OrderItemEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long code;
+
+    @JoinColumn(name = "code_order", nullable = false)
+    @ManyToOne
+    private OrderEntity orderEntity;
+
+    @Column(name = "code_product", nullable = false)
+    private Long codeProduct;
+
+    @Column(name = "quantity")
+    private Integer quantity;
+
+    @Column(name = "unit_price", nullable = false, precision = 16, scale = 2)
+    private BigDecimal unitPrice;
+
+    @Transient
+    private String productName;
+}

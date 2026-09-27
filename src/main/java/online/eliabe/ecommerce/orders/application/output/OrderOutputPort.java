@@ -1,18 +1,15 @@
 package online.eliabe.ecommerce.orders.application.output;
 
-import jakarta.transaction.Transactional;
-import online.eliabe.ecommerce.orders.domain.model.enums.PaymentType;
-import online.eliabe.ecommerce.orders.web.dto.AddNewPaymentDTO;
-import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
-import online.eliabe.ecommerce.orders.web.dto.OrderResponseDTO;
-
+import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity.OrderEntity;
+import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity.OrderItemEntity;
 import java.util.List;
 import java.util.Optional;
 
 public interface OrderOutputPort {
-    public OrderResponseDTO save(OrderRequestDTO requestDTO);
-    public Optional<OrderResponseDTO> findByCode(Long code);
-    public List<OrderResponseDTO> findAll();
-    public void updatePaymentStatus(Long code,String paymentKey,boolean status, String comments);
-    void addNewPayment(AddNewPaymentDTO addNewPaymentDTO);
+    public Optional<OrderEntity> save(OrderEntity orderEntity);
+    public Optional<OrderEntity> findByCode(Long code);
+    public List<OrderEntity> findAll();
+    public List<OrderItemEntity> findByOrder(OrderEntity orderEntity);
+   
+    
 }
