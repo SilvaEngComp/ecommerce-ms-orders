@@ -36,7 +36,7 @@ ecommerce:
   orders:
     clients:
       products:
-        url: 'http://localhost:8081/produtos'
+        url: 'http://localhost:8081/products'
       clients:
         url:  'http://localhost:8082/clients'
   config:

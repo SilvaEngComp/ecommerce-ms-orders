@@ -7,10 +7,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface OderDetailMapper {
+public interface OrderDetailMapper {
 
     @Mapping(source = "code", target = "orderCode")
-    @Mapping(source = "clientCode", target = "clientCode")
+    @Mapping(source = "clientData.code", target = "clientCode")
     @Mapping(source = "clientData.name", target = "name")
     @Mapping(source = "clientData.cpf", target = "cpf")
     @Mapping(source = "clientData.street", target = "street")

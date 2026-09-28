@@ -3,7 +3,6 @@ package online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
 
 @Entity
@@ -18,7 +17,7 @@ public class OrderItemEntity {
 
     @JoinColumn(name = "code_order", nullable = false)
     @ManyToOne
-    private OrderEntity orderEntity;
+    private OrderEntity order;
 
     @Column(name = "code_product", nullable = false)
     private Long codeProduct;
@@ -31,4 +30,5 @@ public class OrderItemEntity {
 
     @Transient
     private String productName;
+
 }

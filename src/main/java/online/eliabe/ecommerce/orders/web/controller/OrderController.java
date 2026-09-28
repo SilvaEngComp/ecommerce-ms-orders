@@ -2,6 +2,8 @@ package online.eliabe.ecommerce.orders.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import online.eliabe.ecommerce.orders.application.input.IOrderService;
+import online.eliabe.ecommerce.orders.domain.mapper.OrderDetailMapper;
+import online.eliabe.ecommerce.orders.domain.model.publisher.representation.OrderDetailRepresentation;
 import online.eliabe.ecommerce.orders.infrastructure.exceptions.ItemNotFoundException;
 import online.eliabe.ecommerce.orders.web.dto.AddNewPaymentDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
@@ -13,11 +15,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
 @RestController
 @RequestMapping("orders")
 @RequiredArgsConstructor
 public class OrderController implements OrderSwaggerController {
     private final IOrderService service;
+    private final OrderDetailMapper mapper;
     @Override
     @PostMapping
     public ResponseEntity<Object> createOrder(OrderRequestDTO requestDTO) {
@@ -27,8 +31,9 @@ public class OrderController implements OrderSwaggerController {
 
     @Override
     @GetMapping(value = "/{code}")
-    public ResponseEntity<OrderResponseDTO> findByCode(Long code) {
-        return service.findByCode(code)
+    public ResponseEntity<OrderDetailRepresentation> getOrderDetails(@PathVariable Long code) {
+        return service.getOrderDetails(code)
+                .map(mapper::map)
                 .map(ResponseEntity::ok)
                 .orElseGet(()->ResponseEntity.notFound().build());
     }
@@ -44,7 +49,6 @@ public class OrderController implements OrderSwaggerController {
     public ResponseEntity<Object> newPayment(@RequestBody AddNewPaymentDTO dto) {
             service.addNewPayment(dto);
             return ResponseEntity.noContent().build();
-
-
     }
+
 }

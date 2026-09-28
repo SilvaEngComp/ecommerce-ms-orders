@@ -7,6 +7,7 @@ import online.eliabe.ecommerce.orders.domain.model.enums.PaymentType;
 import online.eliabe.ecommerce.orders.domain.useCase.CreateOrderUserCaseImpl;
 import online.eliabe.ecommerce.orders.domain.useCase.FindAllOrderUseCaseImpl;
 import online.eliabe.ecommerce.orders.domain.useCase.GetOrderUseCaseImpl;
+import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity.OrderEntity;
 import online.eliabe.ecommerce.orders.web.dto.AddNewPaymentDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderItemDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
@@ -30,7 +31,7 @@ public class OrderService implements IOrderService {
         return createOrderUserCase.execute(request);
     }
 
-    public Optional<OrderResponseDTO> findByCode(Long code) {
+    public Optional<OrderEntity> getOrderDetails(Long code) {
         return GetOrderUseCase.execute(code);
     }
 

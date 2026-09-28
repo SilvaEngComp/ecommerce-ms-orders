@@ -34,7 +34,7 @@ public interface OrderMapper {
 
         orderEntity.setTotal(calcTotal(orderEntity));
 
-        orderEntity.getItens().forEach(item->item.setOrderEntity(orderEntity));
+        orderEntity.getItens().forEach(item->item.setOrder(orderEntity));
     }
 
     private static BigDecimal calcTotal(OrderEntity orderEntity) {

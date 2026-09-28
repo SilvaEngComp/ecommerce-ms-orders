@@ -1,11 +1,9 @@
 package online.eliabe.ecommerce.orders.web.dto;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 public record OrderItemDTO(
-
-        Long codeProduct,
-
-        Integer quantity,
-
-        Integer unitPrice) {
-
+                @NotNull Long codeProduct,
+                @Positive Integer quantity,
+                @Positive Integer unitPrice) {
 }
