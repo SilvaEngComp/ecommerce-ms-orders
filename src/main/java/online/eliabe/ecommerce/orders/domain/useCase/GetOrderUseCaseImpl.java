@@ -7,36 +7,26 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import online.eliabe.ecommerce.orders.application.input.GetOrderUseCase;
+import online.eliabe.ecommerce.orders.application.input.IPopulateOrderDetails;
 import online.eliabe.ecommerce.orders.application.output.OrderOutputPort;
-import online.eliabe.ecommerce.orders.domain.mapper.OrderMapper;
 import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity.OrderEntity;
 import online.eliabe.ecommerce.orders.infrastructure.adapter.persistence.entity.OrderItemEntity;
 import online.eliabe.ecommerce.orders.infrastructure.externalServices.ExternalSrvClient;
-import online.eliabe.ecommerce.orders.web.dto.OrderResponseDTO;
+import online.eliabe.ecommerce.orders.infrastructure.externalServices.ExternalSrvProduct;
 
 @Service
 @AllArgsConstructor
 public class GetOrderUseCaseImpl implements GetOrderUseCase {
     private final OrderOutputPort outputPort;
-    private final OrderMapper mapper;
-    private final ExternalSrvClient externalServiceClient;
+    private final IPopulateOrderDetails populateOrderDetails;
+
     @Override
-    public Optional<OrderResponseDTO> execute(Long code) {
+    public Optional<OrderEntity> execute(Long code) {
         Optional<OrderEntity> order =   outputPort.findByCode(code);
-        order.ifPresent(this::getDataCliente);
-        order.ifPresent(this::getOrderItens);
-        return order.map(mapper::toDTO);
+        order.ifPresent(populateOrderDetails::getDataCliente);
+        order.ifPresent(populateOrderDetails::getOrderItens);
+        return order;
     }
 
-    private void getDataCliente(OrderEntity orderEntity) {
-        Long clientCode = orderEntity.getClientCode();
-        var response = externalServiceClient.findByCode(clientCode);
-        orderEntity.setClientData(response.getBody());
-    }
-
-    private void getOrderItens(OrderEntity orderEntity) {
-        List<OrderItemEntity> orderItems = outputPort.findByOrder(orderEntity);
-        orderEntity.setItens(orderItems);
-    }
 
 }

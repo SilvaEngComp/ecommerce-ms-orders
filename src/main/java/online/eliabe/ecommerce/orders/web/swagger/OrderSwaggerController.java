@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import online.eliabe.ecommerce.orders.domain.model.publisher.representation.OrderDetailRepresentation;
 import online.eliabe.ecommerce.orders.domain.service.OrderService;
 import online.eliabe.ecommerce.orders.web.dto.AddNewPaymentDTO;
 import online.eliabe.ecommerce.orders.web.dto.OrderRequestDTO;
@@ -34,7 +35,7 @@ public interface OrderSwaggerController {
 
     @GetMapping("/{code}")
     @Operation(summary = "Find order by Code")
-    public ResponseEntity<OrderResponseDTO> findByCode(@PathVariable Long code);
+    public ResponseEntity<OrderDetailRepresentation> getOrderDetails(@PathVariable Long code);
 
 
     @GetMapping
